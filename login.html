@@ -20,7 +20,7 @@
 
   <h2>Login</h2>
   <input type="email" id="login-email" placeholder="Coloque aqui o seu email"> <br>
-  <input type="password" id="login-password" placeholder="Coloque aqui a sua senha"> <br>
+  <input type="password" id="login-password" placeholder="Coloque aqui a sua password"> <br>
   <button onclick="loginUser()">Login</button> <br>
 
   <script src="./header.js"></script>
@@ -36,7 +36,7 @@
         localStorage.setItem('currentUser', JSON.stringify(user));
         window.location.href = 'index.html';
       } else {
-        alert('Email ou senha inválidos.');
+        alert('Email ou password inválidos.');
       }
     }
 
