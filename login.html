@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Login</title>
+  <style>
+    input {
+      margin: 10px;
+      padding: 5px;
+    }
+    button {
+      margin: 10px;
+      padding: 5px;
+    }
+  </style>
+</head>
+
+<body class="login-page">
+  <div id="header"></div>
+
+  <h2>Login</h2>
+  <input type="email" id="login-email" placeholder="Coloque aqui o seu email"> <br>
+  <input type="password" id="login-password" placeholder="Coloque aqui a sua senha"> <br>
+  <button onclick="loginUser()">Login</button> <br>
+
+  <script src="./header.js"></script>
+  <script>
+    function loginUser() {
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      const users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : [];
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if (user) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        window.location.href = 'index.html';
+      } else {
+        alert('Email ou senha inválidos.');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', renderHeader);
+    
+  </script>
+</body>
+
+</html>

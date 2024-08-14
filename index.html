@@ -1,21 +1,47 @@
-<html lang="pt-br">
+<!DOCTYPE html>
+<html>
 
 <head>
-  <title>Home</title>
-  <style>
-    #header {
-      margin: 10px;
-      padding: 5px;
-    }
-  </style>
+  <title>Página Inicial</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-  <div id="header"></div> <!-- Header será renderizado aqui -->
+  <div id="header"></div>
+  <div id="menu"></div>
 
-  <!-- Conteúdo da página -->
+  <h2>Flats Disponíveis</h2>
+  <div id="flats-container"></div>
 
   <script src="./header.js"></script>
+  <script src="./menu.js"></script>
+  <script>
+    function renderFlats() {
+      const flatsContainer = document.getElementById('flats-container');
+      const flats = localStorage.getItem('houses') ? JSON.parse(localStorage.getItem('houses')) : [];
+
+      if (flats.length === 0) {
+        flatsContainer.innerHTML = '<p>Não há imóveis disponíveis no momento.</p>';
+      } else {
+        flatsContainer.innerHTML = flats.map(flat => `
+          <div>
+            <h3>${flat.title}</h3>
+            <p>${flat.description}</p>
+            <p>Localização: ${flat.location}</p>
+            <p>Preço: ${flat.price} EUR</p>
+            ${flat.image ? `<img src="${flat.image}" alt="${flat.title}" style="max-width: 100px;">` : ''}
+          </div>
+          <hr>
+        `).join('');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderHeader();
+      renderFlats();
+    });
+  </script>
+
 </body>
 
 </html>

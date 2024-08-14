@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Register</title>
+  <style>
+    input {
+      margin: 10px;
+      padding: 5px;
+    }
+    button {
+      margin: 10px;
+      padding: 5px;
+    }
+  </style>
+</head>
+
+<body class="register-page">
+  <div id="header"></div>
+  <div id="menu"></div>
+  
+  <input type="text" id="first-name" placeholder="Nome"> <br>
+  <input type="text" id="last-name" placeholder="Sobrenome"> <br>
+  <input type="text" id="birthdate" placeholder="Data de nascimento (DD/MM/AA)"><br>
+  <input type="email" id="email" placeholder="Email"> <br>
+  <input type="password" id="password" placeholder="Password"> <br>
+  <button id="register" onclick="addUser()">Register</button> <br>
+
+  <script src="./header.js"></script>
+  <script>
+    function addUser() {
+      const firstName = document.getElementById('first-name').value;
+      const lastName = document.getElementById('last-name').value;
+      const birthdate = document.getElementById('birthdate').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      if (!validateDate(birthdate)) {
+        alert('Data de nascimento inválida. Por favor, use o formato DD/MM/AA.');
+        return;
+      }
+
+      const users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : [];
+
+      
+      const existingUser = users.find(user => user.email === email);
+      if (existingUser) {
+        alert('Email já registado. Por favor, faça login.');
+        return;
+      }
+
+      users.push({ firstName, lastName, birthdate, email, password });
+      localStorage.setItem('users', JSON.stringify(users));
+
+      
+      window.location.href = 'login.html';
+    }
+
+    function validateDate(dateString) {
+      const regex = /^(\d{2})\/(\d{2})\/(\d{2})$/;
+      const match = dateString.match(regex);
+
+      if (!match) return false;
+
+      const [day, month, year] = match.slice(1).map(Number);
+      if (month < 1 || month > 12 || day < 1 || day > 31) return false;
+      if ((month === 4 || month === 6 || month === 9 || month === 11) && day > 30) return false;
+      if (month === 2) {
+        const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+        if ((isLeapYear && day > 29) || (!isLeapYear && day > 28)) return false;
+      }
+
+      return true;
+    }
+
+    document.addEventListener('DOMContentLoaded', renderHeader);
+  </script>
+</body>
+
+</html>
